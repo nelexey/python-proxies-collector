@@ -6,18 +6,28 @@ from .web import init_web_server
 from .collector import collect
 
 
-
 async def run_collector():
+    """
+    Собирает прокси,
+    сохраняет в файл,
+    ждёт время.
+    """
+
     while True:
         await collect()
-        await asyncio.sleep(300) # 5 min
+        await asyncio.sleep(10)  # 5 мин
+
 
 async def run_server():
+    """
+    Запускает сервер,
+    обеспечивает корректное прерывание.
+    """
+
     web_server_task = asyncio.create_task(init_web_server(settings.web_config))
-    # This is a simple way of keeping the server running forever.
     try:
         while True:
-            await asyncio.sleep(3600)  # Wait for one hour before checking again
+            await asyncio.sleep(3600)
     except KeyboardInterrupt:
         web_server_task.cancel()
         try:
@@ -25,9 +35,9 @@ async def run_server():
         except asyncio.CancelledError:
             pass
 
+
 def launch():
-    # Создаем event loop
     loop = asyncio.get_event_loop()
 
-    # Запускаем асинхронные функции одновременно
+    # Запуск сервера и сборщика
     loop.run_until_complete(asyncio.gather(run_server(), run_collector()))
