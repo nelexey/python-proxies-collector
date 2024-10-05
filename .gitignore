@@ -1,0 +1,6 @@
+/env/
+/proxies_list.json
+/.env
+/.idea
+/sites_data.json
+**/__pycache__/
