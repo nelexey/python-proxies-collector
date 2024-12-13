@@ -15,7 +15,7 @@ async def run_collector():
 
     while True:
         await collect()
-        await asyncio.sleep(10)  # 5 мин
+        await asyncio.sleep(120) # 2 min
 
 
 async def run_server():
@@ -27,7 +27,7 @@ async def run_server():
     web_server_task = asyncio.create_task(init_web_server(settings.web_config))
     try:
         while True:
-            await asyncio.sleep(3600)
+            await asyncio.sleep(3600) # 1 hour
     except KeyboardInterrupt:
         web_server_task.cancel()
         try:
@@ -39,5 +39,4 @@ async def run_server():
 def launch():
     loop = asyncio.get_event_loop()
 
-    # Запуск сервера и сборщика
     loop.run_until_complete(asyncio.gather(run_server(), run_collector()))
