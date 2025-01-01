@@ -7,7 +7,7 @@ async def fetch(session, proxy, url):
         async with session.get(url=url, proxy=f'http://{proxy}', timeout=3) as response:
             result_ip = await response.text()
             # print(f"Proxy: {proxy} - Result: {result_ip}")
-            return proxy  # Сохраняем рабочий прокси
+            return proxy
     except Exception as e:
         # print(f"Proxy: {proxy} - Error: {e}")
         return None
